@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { LoginSchema } from "./schema/index";

@@ -1,4 +1,5 @@
 "use server";
+
 import * as z from "zod";
 import { NewPasswordSchema } from "../schema/index";
 import { getPasswordResetTokenByToken } from "../data/password-reset-token";
