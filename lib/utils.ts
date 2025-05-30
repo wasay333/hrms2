@@ -66,18 +66,36 @@ export function getProjectTypeBadgeColor(projectType: string | null): string {
   }
 }
 export function calculateLeaveDays(fromDate: Date, toDate: Date): number {
+  console.log(`Input dates - fromDate: ${fromDate}, toDate: ${toDate}`);
+
+  // Create new date objects to avoid mutating the original dates
   const from = new Date(fromDate);
   const to = new Date(toDate);
-  let count = 0;
 
-  while (from <= to) {
-    const day = from.getDay();
+  // Normalize times to avoid timezone issues
+  from.setHours(0, 0, 0, 0);
+  to.setHours(0, 0, 0, 0);
+
+  console.log(
+    `Normalized dates - from: ${from.toDateString()}, to: ${to.toDateString()}`
+  );
+
+  let count = 0;
+  const current = new Date(from);
+  const weekdays = [];
+
+  while (current <= to) {
+    const day = current.getDay();
     if (day !== 0 && day !== 6) {
       // Exclude Sunday (0) and Saturday (6)
       count++;
+      weekdays.push(current.toDateString());
     }
-    from.setDate(from.getDate() + 1);
+    current.setDate(current.getDate() + 1);
   }
+
+  console.log(`Weekdays counted: ${weekdays.join(", ")}`);
+  console.log(`Total weekdays: ${count}`);
 
   return count;
 }

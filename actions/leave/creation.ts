@@ -40,7 +40,6 @@ export async function createLeaveRequest(
       leaveRequestId: leaveRequest.id,
     };
   } catch (error) {
-    console.log("Error creating leave request:", error);
-    return { error: "Failed to create leave request" };
+    return { error: "Failed to create leave request", details: error };
   }
 }

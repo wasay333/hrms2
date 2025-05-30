@@ -12,15 +12,21 @@ export async function approveLeave(leaveId: string) {
   if (!leave || leave.status !== "pending") {
     throw new Error("Invalid leave request");
   }
+  // Convert string dates back to Date objects if needed
+  const fromDate = new Date(leave.fromDate);
+  const toDate = new Date(leave.toDate);
 
-  const leaveDays = calculateLeaveDays(leave.fromDate, leave.toDate);
+  const leaveDays = calculateLeaveDays(fromDate, toDate);
+  console.log(
+    `Leave days calculated: ${leaveDays} for period ${fromDate.toDateString()} to ${toDate.toDateString()}`
+  );
 
   const balance = await db.leaveBalance.findUnique({
     where: { userId: leave.userId },
   });
 
   if (!balance || balance.remaining < leaveDays) {
-    throw new Error("Insufficient leave balance");
+    throw new Error("Insufficient leave balance of employee");
   }
 
   await db.$transaction([

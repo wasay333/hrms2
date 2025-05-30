@@ -43,7 +43,6 @@ export function AttendenceForm() {
 
     startTransition(() => {
       createAttendance(values).then((data) => {
-        console.log("InviteEmployee response:", data);
         if (data?.error) {
           setError(data.error);
           return;

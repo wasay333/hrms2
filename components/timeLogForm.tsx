@@ -37,7 +37,6 @@ interface LogProps {
   error: unknown;
 }
 export function TimeLogForm({ data }: LogProps) {
-  console.log(data);
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const queryClient = useQueryClient();

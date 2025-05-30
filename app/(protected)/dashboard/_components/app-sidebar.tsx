@@ -88,7 +88,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             ) : (
               <>
                 <Link href="/ownAttendence">
-                  <Button variant="default" className="mx-5">
+                  <Button variant="default" className="mx-5 cursor-pointer">
                     Check your attendance
                   </Button>
                 </Link>

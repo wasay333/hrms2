@@ -66,8 +66,6 @@ export default function ProjectDetailsPage() {
         <h1 className="text-2xl font-bold">Project not found</h1>
       </div>
     );
-  console.log("Available Employees:", availableEmployees);
-  console.log("Assigned Employees:", assignedEmployees);
   return (
     <div className="container mx-auto py-6 space-y-6">
       <Card>

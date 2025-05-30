@@ -53,7 +53,6 @@ export function LeaveForm() {
 
     startTransition(() => {
       createLeaveRequest(values).then((data) => {
-        console.log("create leave request response:", data);
         if (data?.error) {
           setError(data.error);
         } else if (data?.success && data.leaveRequestId) {

@@ -48,8 +48,6 @@ export function EmployeeInProjectForm({
     setSuccess("");
     startTransition(() => {
       assignEmployeeToProject({ projectId, userId, values }).then((data) => {
-        console.log("InviteEmployee response:", data);
-
         if (data.error) {
           setError(data.error);
           setSuccess("");

@@ -22,8 +22,11 @@ import { FormSuccess } from "../form-success";
 import { login } from "../../actions/login";
 import Link from "next/link";
 import { DEFAULT_LOGIN_REDIRECT } from "../../routes";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const LoginForm = () => {
+  const queryClient = useQueryClient();
+
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -46,21 +49,22 @@ export const LoginForm = () => {
           if (data?.error) {
             form.reset();
             setError(data.error);
-            console.log(error);
           }
           if (data?.success) {
             form.reset();
             setSuccess(data.success);
+            // Clear React Query cache on successful login
+            queryClient.clear();
 
+            // Force router refresh to clear any cached data
+            router.refresh();
             if (
               !data.lastAttendanceDate ||
               new Date(data.lastAttendanceDate).toDateString() !==
                 new Date().toDateString()
             ) {
-              // No attendance today — redirect to attendance page or show prompt
               router.push("/attendCreate");
             } else {
-              // Attendance is marked today, go to dashboard
               router.push(DEFAULT_LOGIN_REDIRECT);
             }
           }

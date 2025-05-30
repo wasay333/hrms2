@@ -24,38 +24,48 @@ import { TimeLogForm } from "../../../../components/timeLogForm";
 import { TodayWorkForm } from "../../../../components/today-work-form";
 import TimeLogsTable from "../../../../components/timeLogTable";
 import TaskListing from "../../../../components/tasks";
+import { useSessionCacheManager } from "../../../../hooks/session-cache-manager";
 
 export default function DashboardPage() {
+  useSessionCacheManager();
   const { data, isLoading, error } = useQuery({
     queryKey: ["currentUser"],
     queryFn: getClientCurrentUser,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
+  const userId = data?.id;
+
   const {
     data: projects,
     isLoading: projectsLoading,
     error: projectsError,
   } = useQuery({
-    queryKey: ["projects"],
+    queryKey: ["projects", userId],
     queryFn: getAllProjects,
-    enabled: !!data && data.role === "ADMIN", // Only fetch if user is admin
+    enabled: !!data && data.role === "ADMIN",
+    staleTime: 0,
   });
   const {
     data: employees,
     isLoading: employeesLoading,
     error: employeesError,
   } = useQuery({
-    queryKey: ["employees"],
+    queryKey: ["employees", userId],
     queryFn: getAllEmployees,
-    enabled: !!data && data.role === "ADMIN", // Only fetch if user is admin
+    enabled: !!data && data.role === "ADMIN",
+    staleTime: 0,
   });
+
   const {
     data: leaves,
     isLoading: leavesLoading,
     error: leavesError,
   } = useQuery({
-    queryKey: ["leaves"],
+    queryKey: ["leaves", userId],
     queryFn: getAllLeaves,
-    enabled: !!data && data.role === "ADMIN", // Only fetch if user is admin
+    enabled: !!data && data.role === "ADMIN",
+    staleTime: 0,
   });
 
   const {
@@ -63,25 +73,30 @@ export default function DashboardPage() {
     isLoading: myLeavesLoading,
     error: myLeavesError,
   } = useQuery({
-    queryKey: ["myLeaves"],
+    queryKey: ["myLeaves", userId],
     queryFn: getAllLeavesOfLoggedInUser,
+    staleTime: 0,
   });
+
   const {
     data: myBalance,
     isLoading: myBalanceLoading,
     error: myBalanceError,
   } = useQuery({
-    queryKey: ["myBalance"],
+    queryKey: ["myBalance", userId], // Add userId to key
     queryFn: getLeaveBalanceOfUser,
     enabled: !!data && data.role === "EMPLOYEE",
+    staleTime: 0,
   });
+
   const {
     data: employeeProjects,
     isLoading: employeeProjectsLoading,
     error: employeeProjectsError,
   } = useQuery({
-    queryKey: ["employeeProjects"],
+    queryKey: ["employeeProjects", userId], // Add userId to key
     queryFn: getEmployeesProjects,
+    staleTime: 0,
   });
   if (isLoading) {
     return (
